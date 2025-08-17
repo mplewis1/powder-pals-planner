@@ -35,6 +35,13 @@ jobs:
       - name: Add .nojekyll file
         run: touch dist/.nojekyll
         
+      - name: Add headers file
+        run: |
+          echo "/*.js" > dist/_headers
+          echo "  Content-Type: application/javascript" >> dist/_headers
+          echo "/*.css" >> dist/_headers
+          echo "  Content-Type: text/css" >> dist/_headers
+        
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
