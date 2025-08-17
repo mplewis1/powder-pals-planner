@@ -11,7 +11,8 @@ interface EmailData {
 export const sendBookingConfirmationEmail = async (bookingData: any) => {
   try {
     // Use deployed backend URL in production, localhost in development
-    const apiUrl = process.env.NODE_ENV === 'production' 
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const apiUrl = isProduction
       ? 'https://white-peak-email-api.onrender.com/api/send-email'
       : 'http://localhost:3001/api/send-email';
 

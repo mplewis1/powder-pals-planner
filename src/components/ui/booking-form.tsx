@@ -169,15 +169,11 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
     console.log('Booking Data JSON:', JSON.stringify(bookingData, null, 2));
     
     // Send confirmation email to the guest
-    const emailResult = await sendBookingConfirmationEmail({
-      to: formData.email,
-      bookingData: bookingData
-    });
-    
-    if (emailResult.success) {
-      console.log('✅ Confirmation email sent successfully');
-    } else {
-      console.error('❌ Failed to send confirmation email:', emailResult.message);
+    try {
+      const emailResult = await sendBookingConfirmationEmail(bookingData);
+      console.log('✅ Confirmation email sent successfully:', emailResult);
+    } catch (error) {
+      console.error('❌ Failed to send confirmation email:', error);
     }
     
     setSubmittedData(bookingData);
