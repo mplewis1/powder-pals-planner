@@ -52,7 +52,7 @@ const generateEmailHtml = (bookingData) => {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>White Peak Ski Trips - Booking Confirmation</title>
+      <title>White Peak Travel - Booking Confirmation</title>
       <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: hsl(210 40% 8%); margin: 0; padding: 0; background: hsl(0 0% 100%); }
         .container { max-width: 650px; margin: 20px auto; background-color: hsl(0 0% 100%); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 40px -10px hsl(217 91% 20% / 0.3); }
@@ -80,7 +80,7 @@ const generateEmailHtml = (bookingData) => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">White Peak Ski Trips</div>
+          <div class="logo">White Peak Travel</div>
           <div class="tagline">Premium Ski and Snowboard Adventures</div>
         </div>
         
@@ -91,26 +91,6 @@ const generateEmailHtml = (bookingData) => {
             We've received your booking request and are excited to create the perfect ski experience for your group. 
             Our expert team will review your preferences and get back to you within 24 hours with a personalized itinerary.
           </p>
-
-          <div class="section">
-            <div class="section-title">Client Information</div>
-            <div class="info-grid">
-              <div class="info-item">
-                <span class="info-label">Name:</span>
-                <span class="info-value">${bookingData.client.name}</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">Email:</span>
-                <span class="info-value">${bookingData.client.email}</span>
-              </div>
-              ${bookingData.client.phone ? `
-              <div class="info-item">
-                <span class="info-label">Phone:</span>
-                <span class="info-value">${bookingData.client.phone}</span>
-              </div>
-              ` : ''}
-            </div>
-          </div>
 
           <div class="section">
             <div class="section-title">Trip Details</div>
@@ -215,11 +195,318 @@ const generateEmailHtml = (bookingData) => {
 
         <div class="footer">
           <div class="footer-content">
-            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">White Peak Ski Trips</div>
+            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">White Peak Travel</div>
             <div class="contact-info">
               <div>📧 info@whitepeaktravel.com</div>
             </div>
           </div>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+};
+
+// DMC Inquiry Email Generation Function
+const generateDmcInquiryEmail = (bookingData) => {
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const generateBadges = (items, type = 'default') => {
+    const colors = {
+      resort: { bg: 'hsl(217 91% 20%)', color: 'hsl(0 0% 98%)', border: 'hsl(217 91% 35%)' },
+      interest: { bg: 'hsl(150 60% 45%)', color: 'hsl(0 0% 98%)', border: 'hsl(150 60% 45%)' },
+      default: { bg: 'hsl(210 40% 96%)', color: 'hsl(210 40% 8%)', border: 'hsl(210 40% 90%)' }
+    };
+    const color = colors[type];
+    return items.map(item => 
+      `<span style="display: inline-block; background-color: ${color.bg}; color: ${color.color}; padding: 6px 12px; border-radius: 8px; font-size: 13px; margin: 3px; border: 1px solid ${color.border}; font-weight: 500;">${item}</span>`
+    ).join('');
+  };
+
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Ski Trip Inquiry</title>
+             <style>
+         body { 
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+           line-height: 1.6; 
+           color: #2d3748; 
+           margin: 0; 
+           padding: 0; 
+           background: #ffffff;
+         }
+         .container { 
+           max-width: 700px; 
+           margin: 20px auto; 
+           background-color: #ffffff; 
+           border: 1px solid #e2e8f0;
+           border-radius: 4px;
+         }
+         .header { 
+           background: #1e40af; 
+           color: #ffffff; 
+           padding: 25px 30px; 
+           text-align: center; 
+           border-bottom: 1px solid #e2e8f0;
+         }
+         .content { 
+           padding: 30px; 
+         }
+         .intro {
+           background: #f7fafc;
+           border: 1px solid #e2e8f0;
+           border-radius: 4px;
+           padding: 20px;
+           margin-bottom: 25px;
+           border-left: 4px solid #38a169;
+         }
+         .section { 
+           margin-bottom: 25px; 
+           background-color: #f7fafc; 
+           border: 1px solid #e2e8f0;
+           border-radius: 4px; 
+           padding: 20px;
+         }
+         .section-title { 
+           font-size: 16px; 
+           font-weight: 600; 
+           color: #1e40af; 
+           margin-bottom: 15px; 
+           text-transform: uppercase;
+           letter-spacing: 0.5px;
+           border-bottom: 2px solid #1e40af;
+           padding-bottom: 5px;
+         }
+         .info-grid { 
+           display: grid; 
+           grid-template-columns: 1fr 1fr; 
+           gap: 15px; 
+           margin-bottom: 15px; 
+         }
+         .info-item { 
+           display: flex; 
+           justify-content: space-between;
+           align-items: center;
+           padding: 8px 0;
+           border-bottom: 1px solid #e2e8f0;
+         }
+         .info-item:last-child {
+           border-bottom: none;
+         }
+         .info-label { 
+           font-weight: 600; 
+           color: #4a5568; 
+           min-width: 120px;
+         }
+         .info-value { 
+           color: #2d3748; 
+           text-align: right;
+           font-weight: 500;
+         }
+         .footer { 
+           background-color: #1e40af; 
+           color: #ffffff; 
+           padding: 20px; 
+           text-align: center; 
+           font-size: 14px;
+           border-top: 1px solid #e2e8f0;
+         }
+         .tag {
+           display: inline-block;
+           background: #38a169;
+           color: #ffffff;
+           padding: 4px 8px;
+           border-radius: 3px;
+           font-size: 12px;
+           font-weight: 500;
+           margin: 2px;
+         }
+         .next-steps {
+           background: #f0fff4;
+           border: 1px solid #9ae6b4;
+           border-radius: 4px;
+           padding: 20px;
+           margin-top: 25px;
+         }
+         .reference-box {
+           background: #edf2f7;
+           border: 1px solid #cbd5e0;
+           border-radius: 4px;
+           padding: 15px;
+           margin-top: 25px;
+           text-align: center;
+         }
+         @media (max-width: 600px) { 
+           .info-grid { 
+             grid-template-columns: 1fr; 
+           } 
+           .content { 
+             padding: 20px; 
+           } 
+           .header { 
+             padding: 20px; 
+           }
+           .info-item {
+             flex-direction: column;
+             align-items: flex-start;
+             text-align: left;
+           }
+           .info-value {
+             text-align: left;
+             margin-top: 4px;
+           }
+         }
+       </style>
+    </head>
+    <body>
+             <div class="container">
+         <div class="header">
+           <h1 style="margin: 0; font-size: 24px; font-weight: 700;">Alpine Adventures Ski Trip Inquiry</h1>
+           <p style="margin: 10px 0 0 0; opacity: 0.9;">White Peak Travel - Fora Advisor Request</p>
+         </div>
+         
+         <div class="content">
+           <div class="intro">
+             <p style="margin: 0; color: #2d3748; font-size: 16px; line-height: 1.6;">
+               <strong>Dear Alpine Adventures Team,</strong><br><br>
+               My name is Matthew Lewis, and I am a Fora advisor (IATA: 33520476). I am reaching out on behalf of my client for a ski trip inquiry. Please see the details below:
+             </p>
+           </div>
+
+           
+
+                     <div class="section">
+             <div class="section-title">GROUP DETAILS</div>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Group Size:</span>
+                <span class="info-value">${bookingData.group.numberOfPeople} people</span>
+              </div>
+              ${bookingData.group.numberOfRooms ? `
+              <div class="info-item">
+                <span class="info-label">Rooms Needed:</span>
+                <span class="info-value">${bookingData.group.numberOfRooms} rooms</span>
+              </div>
+              ` : ''}
+              <div class="info-item">
+                <span class="info-label">Ski Days:</span>
+                <span class="info-value">${bookingData.group.numberOfSkiDays} days</span>
+              </div>
+              ${bookingData.group.hasMinors && bookingData.group.minorAges.length > 0 ? `
+              <div class="info-item">
+                <span class="info-label">Minors:</span>
+                <span class="info-value">Ages: ${bookingData.group.minorAges.join(', ')}</span>
+              </div>
+              ` : ''}
+            </div>
+          </div>
+
+                     <div class="section">
+             <div class="section-title">TRAVEL DATES & DESTINATIONS</div>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Arrival:</span>
+                <span class="info-value">${formatDate(bookingData.travel.startDate)}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Departure:</span>
+                <span class="info-value">${formatDate(bookingData.travel.endDate)}</span>
+              </div>
+            </div>
+            ${bookingData.travel.selectedResorts.length > 0 ? `
+            <div style="margin-top: 15px;">
+              <div style="font-weight: 600; color: hsl(215 16% 47%); margin-bottom: 8px;">Requested Resorts:</div>
+              <div style="margin-bottom: 8px;">
+                ${generateBadges(bookingData.travel.selectedResorts, 'resort')}
+              </div>
+            </div>
+            ` : ''}
+            ${bookingData.travel.specificLocations ? `
+            <div style="margin-top: 10px;">
+              <div style="font-weight: 600; color: hsl(215 16% 47%); margin-bottom: 5px;">Additional Locations:</div>
+              <div style="color: hsl(210 40% 8%);">${bookingData.travel.specificLocations}</div>
+            </div>
+            ` : ''}
+          </div>
+
+                     <div class="section">
+             <div class="section-title">BUDGET INFORMATION</div>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Budget Range:</span>
+                <span class="info-value"><strong>${bookingData.budget.range}</strong></span>
+              </div>
+            </div>
+            ${bookingData.budget.details ? `
+            <div style="margin-top: 10px;">
+              <div style="font-weight: 600; color: hsl(215 16% 47%); margin-bottom: 5px;">Additional Details:</div>
+              <div style="color: hsl(210 40% 8%);">${bookingData.budget.details}</div>
+            </div>
+            ` : ''}
+          </div>
+
+                     <div class="section">
+             <div class="section-title">INTERESTS & PREFERENCES</div>
+            ${bookingData.preferences.interests.length > 0 ? `
+            <div style="margin-bottom: 15px;">
+              <div style="font-weight: 600; color: hsl(215 16% 47%); margin-bottom: 8px;">Requested Activities:</div>
+              <div>
+                ${generateBadges(bookingData.preferences.interests, 'interest')}
+              </div>
+            </div>
+            ` : ''}
+            ${bookingData.preferences.pastExperiences ? `
+            <div style="margin-bottom: 10px;">
+              <div style="font-weight: 600; color: hsl(215 16% 47%); margin-bottom: 5px;">Past Experiences:</div>
+              <div style="color: hsl(210 40% 8%);">${bookingData.preferences.pastExperiences}</div>
+            </div>
+            ` : ''}
+            ${bookingData.preferences.preferredHotels ? `
+            <div style="margin-bottom: 10px;">
+              <div style="font-weight: 600; color: hsl(215 16% 47%); margin-bottom: 5px;">Preferred Hotels:</div>
+              <div style="color: hsl(210 40% 8%);">${bookingData.preferences.preferredHotels}</div>
+            </div>
+            ` : ''}
+            ${bookingData.preferences.specialRequirements ? `
+            <div style="margin-bottom: 10px;">
+              <div style="font-weight: 600; color: hsl(215 16% 47%); margin-bottom: 5px;">Special Requirements:</div>
+              <div style="color: hsl(210 40% 8%);">${bookingData.preferences.specialRequirements}</div>
+            </div>
+            ` : ''}
+          </div>
+
+          <div class="next-steps">
+            <p style="margin: 0; color: #2d3748; font-size: 16px; line-height: 1.6;">
+              <strong>Next Steps Requested:</strong><br>
+              Please provide a detailed quote including accommodations, lift tickets, transfers, and any additional services that would enhance this ski experience. I look forward to working with you on behalf of my client.
+            </p>
+          </div>
+
+          <div class="reference-box">
+            <p style="margin: 0; color: #4a5568; font-size: 14px;">
+              <strong>Booking Reference:</strong> ${bookingData.id}<br>
+              <strong>Inquiry Date:</strong> ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </p>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p style="margin: 0;">
+            <strong>Matthew Lewis</strong> | Fora Advisor (IATA: 33520476)<br>
+            Email: matthew.lewis@fora.travel<br>
+            White Peak Travel
+          </p>
         </div>
       </div>
     </body>
@@ -239,31 +526,59 @@ app.post('/api/send-email', async (req, res) => {
     // Generate the HTML email content
     const emailHtml = generateEmailHtml(bookingData);
 
-    if (resend) {
-      // Send the email using Resend
-      const { data, error } = await resend.emails.send({
-        from: 'White Peak Ski Trips <noreply@whitepeaktravel.com>',
+        if (resend) {
+      // Generate the DMC inquiry email
+      const dmcEmailHtml = generateDmcInquiryEmail(bookingData);
+      
+      // Send confirmation email to client
+      const { data: clientData, error: clientError } = await resend.emails.send({
+        from: 'White Peak Travel <noreply@whitepeaktravel.com>',
         to: [to],
-        subject: 'White Peak Ski Trips - Booking Confirmation',
+        subject: 'White Peak Travel - Booking Confirmation',
         html: emailHtml,
       });
 
-      if (error) {
-        console.error('Resend error:', error);
-        return res.status(500).json({ error: 'Failed to send email' });
+      if (clientError) {
+        console.error('Resend error (client email):', clientError);
+        return res.status(500).json({ error: 'Failed to send client email' });
       }
 
-      console.log('✅ Email sent successfully:', data);
-      res.json({ success: true, data });
+      // Send DMC inquiry email to Matthew
+      const { data: dmcData, error: dmcError } = await resend.emails.send({
+        from: 'White Peak Travel <noreply@whitepeaktravel.com>',
+        to: ['matthew.lewis@fora.travel'],
+        subject: `Ski Trip Inquiry - ${bookingData.client.name} - ${bookingData.group.numberOfPeople} people - ${bookingData.travel.startDate} to ${bookingData.travel.endDate}`,
+        html: dmcEmailHtml,
+      });
+
+      if (dmcError) {
+        console.error('Resend error (DMC email):', dmcError);
+        // Don't fail the request if DMC email fails, just log it
+        console.log('⚠️ DMC email failed but client email sent successfully');
+      }
+
+      console.log('✅ Client email sent successfully:', clientData);
+      if (dmcData) {
+        console.log('✅ DMC inquiry email sent successfully:', dmcData);
+      }
+      
+      res.json({ success: true, clientData, dmcData });
     } else {
       // Log the email content for testing
-      console.log('📧 EMAIL WOULD BE SENT:');
+      console.log('📧 CLIENT EMAIL WOULD BE SENT:');
       console.log('To:', to);
-      console.log('Subject: White Peak Ski Trips - Booking Confirmation');
+      console.log('Subject: White Peak Travel - Booking Confirmation');
       console.log('HTML Content Length:', emailHtml.length, 'characters');
-      console.log('📧 END EMAIL LOG');
-      
-      res.json({ success: true, message: 'Email logged (Resend not configured)' });
+      console.log('📧 END CLIENT EMAIL LOG');
+
+      const dmcEmailHtml = generateDmcInquiryEmail(bookingData);
+      console.log('📧 DMC INQUIRY EMAIL WOULD BE SENT:');
+      console.log('To: matthew.lewis@fora.travel');
+      console.log('Subject: Ski Trip Inquiry - ' + bookingData.client.name + ' - ' + bookingData.group.numberOfPeople + ' people - ' + bookingData.travel.startDate + ' to ' + bookingData.travel.endDate);
+      console.log('HTML Content Length:', dmcEmailHtml.length, 'characters');
+      console.log('📧 END DMC EMAIL LOG');
+
+      res.json({ success: true, message: 'Emails logged (Resend not configured)' });
     }
 
   } catch (error) {
