@@ -52,7 +52,7 @@ export const generateEmailHtml = (bookingData: any): string => {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>White Peak Travel - Booking Confirmation</title>
+      <title>White Peak Travel - Inquiry Confirmation</title>
       <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f8fafc; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
@@ -242,7 +242,7 @@ export const formatEmailForService = (emailData: EmailData, service: 'sendgrid' 
           },
         ],
         from: { email: 'noreply@whitepeakskitrips.com', name: 'White Peak Travel' },
-        subject: 'White Peak Travel - Booking Confirmation',
+        subject: 'White Peak Travel - Inquiry Confirmation',
         content: [
           {
             type: 'text/html',
@@ -259,7 +259,7 @@ export const formatEmailForService = (emailData: EmailData, service: 'sendgrid' 
         },
         Message: {
           Subject: {
-            Data: 'White Peak Travel - Booking Confirmation',
+            Data: 'White Peak Travel - Inquiry Confirmation',
             Charset: 'UTF-8',
           },
           Body: {
@@ -275,14 +275,14 @@ export const formatEmailForService = (emailData: EmailData, service: 'sendgrid' 
       return {
         from: 'White Peak Travel <noreply@whitepeakskitrips.com>',
         to: [emailData.to],
-        subject: 'White Peak Travel - Booking Confirmation',
+        subject: 'White Peak Travel - Inquiry Confirmation',
         html: emailHtml,
       };
 
     default:
       return {
         to: emailData.to,
-        subject: 'White Peak Travel - Booking Confirmation',
+        subject: 'White Peak Travel - Inquiry Confirmation',
         html: emailHtml,
       };
   }
