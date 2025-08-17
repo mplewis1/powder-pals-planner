@@ -52,7 +52,7 @@ const generateEmailHtml = (bookingData) => {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>White Peak Travel - Booking Confirmation</title>
+      <title>White Peak Travel - Inquiry Confirmation</title>
       <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: hsl(210 40% 8%); margin: 0; padding: 0; background: hsl(0 0% 100%); }
         .container { max-width: 650px; margin: 20px auto; background-color: hsl(0 0% 100%); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 40px -10px hsl(217 91% 20% / 0.3); }
@@ -534,7 +534,7 @@ app.post('/api/send-email', async (req, res) => {
       const { data: clientData, error: clientError } = await resend.emails.send({
         from: 'White Peak Travel <noreply@whitepeaktravel.com>',
         to: [to],
-        subject: 'White Peak Travel - Booking Confirmation',
+        subject: 'White Peak Travel - Inquiry Confirmation',
         html: emailHtml,
       });
 
@@ -567,7 +567,7 @@ app.post('/api/send-email', async (req, res) => {
       // Log the email content for testing
       console.log('📧 CLIENT EMAIL WOULD BE SENT:');
       console.log('To:', to);
-      console.log('Subject: White Peak Travel - Booking Confirmation');
+      console.log('Subject: White Peak Travel - Inquiry Confirmation');
       console.log('HTML Content Length:', emailHtml.length, 'characters');
       console.log('📧 END CLIENT EMAIL LOG');
 

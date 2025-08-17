@@ -7,32 +7,35 @@ interface EmailData {
   bookingData: any;
 }
 
-export const sendBookingConfirmationEmail = async (emailData: EmailData) => {
+// Email service for sending booking confirmation emails
+export const sendBookingConfirmationEmail = async (bookingData: any) => {
   try {
-    // Send the email via API
-    const response = await fetch('http://localhost:3001/api/send-email', {
+    // Use deployed backend URL in production, localhost in development
+    const apiUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://white-peak-email-api.onrender.com/api/send-email'
+      : 'http://localhost:3001/api/send-email';
+
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        to: emailData.to,
-        bookingData: emailData.bookingData,
+        to: bookingData.client.email,
+        bookingData: bookingData,
       }),
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to send email');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const result = await response.json();
     console.log('✅ Email sent successfully:', result);
-
-    return { success: true, message: 'Confirmation email sent successfully' };
+    return result;
   } catch (error) {
     console.error('Error sending confirmation email:', error);
-    return { success: false, message: 'Failed to send confirmation email' };
+    throw error;
   }
 };
 
