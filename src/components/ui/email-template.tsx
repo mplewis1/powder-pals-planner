@@ -10,7 +10,7 @@ const EmailTemplate = ({ bookingData }: EmailTemplateProps) => {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>White Peak Ski Trips - Booking Confirmation</title>
+        <title>White Peak Travel - Booking Confirmation</title>
         <style>
           {`
             body {
@@ -142,8 +142,7 @@ const EmailTemplate = ({ bookingData }: EmailTemplateProps) => {
         <div className="container">
           {/* Header */}
           <div className="header">
-            <div className="logo">White Peak Ski Trips</div>
-            <div className="tagline">Your Alpine Adventure Awaits</div>
+            <div className="logo">White Peak Travel</div>
           </div>
 
           {/* Content */}
@@ -294,7 +293,7 @@ const EmailTemplate = ({ bookingData }: EmailTemplateProps) => {
           <div className="footer">
             <div className="footer-content">
               <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
-                White Peak Ski Trips
+                White Peak Travel
               </div>
               <div style={{ fontSize: '14px', opacity: '0.8', marginBottom: '20px' }}>
                 Creating unforgettable alpine adventures since 2010
