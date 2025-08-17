@@ -1,49 +1,49 @@
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import EmailTemplate from '@/components/ui/email-template';
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import { Resend } from 'resend';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-interface EmailData {
-  to: string;
-  bookingData: any;
+// Configure dotenv to load .env.local
+dotenv.config({ path: '.env.local' });
+
+// ES module __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Initialize Resend (only if API key is provided)
+let resend = null;
+if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 'your_resend_api_key_here') {
+  resend = new Resend(process.env.RESEND_API_KEY);
+  console.log('✅ Resend API configured');
+} else {
+  console.log('⚠️  Resend API key not configured - emails will be logged only');
 }
 
-export const sendBookingConfirmationEmail = async (emailData: EmailData) => {
-  try {
-    // Send the email via API
-    const response = await fetch('http://localhost:3001/api/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        to: emailData.to,
-        bookingData: emailData.bookingData,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to send email');
-    }
-
-    const result = await response.json();
-    console.log('✅ Email sent successfully:', result);
-
-    return { success: true, message: 'Confirmation email sent successfully' };
-  } catch (error) {
-    console.error('Error sending confirmation email:', error);
-    return { success: false, message: 'Failed to send confirmation email' };
-  }
-};
-
-// Helper function to generate email HTML content
-export const generateEmailHtml = (bookingData: any): string => {
-  const formatDate = (dateString: string) => {
+// Email generation function (copied from email-service.ts)
+const generateEmailHtml = (bookingData) => {
+  const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString();
   };
 
-  const generateBadges = (items: string[]) => {
-    return items.map(item => `<span style="display: inline-block; background-color: #e5e7eb; color: #374151; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin: 2px;">${item}</span>`).join('');
+  const generateBadges = (items, type = 'default') => {
+    const colors = {
+      resort: { bg: 'hsl(217 91% 20%)', color: 'hsl(0 0% 98%)', border: 'hsl(217 91% 35%)' },
+      interest: { bg: 'hsl(150 60% 45%)', color: 'hsl(0 0% 98%)', border: 'hsl(150 60% 45%)' },
+      default: { bg: 'hsl(210 40% 96%)', color: 'hsl(210 40% 8%)', border: 'hsl(210 40% 90%)' }
+    };
+    const color = colors[type];
+    return items.map(item => 
+      `<span style="display: inline-block; background-color: ${color.bg}; color: ${color.color}; padding: 6px 12px; border-radius: 8px; font-size: 13px; margin: 3px; border: 1px solid ${color.border}; font-weight: 500;">${item}</span>`
+    ).join('');
   };
 
   return `
@@ -54,23 +54,24 @@ export const generateEmailHtml = (bookingData: any): string => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>White Peak Ski Trips - Booking Confirmation</title>
       <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f8fafc; }
-        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-        .header { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 40px 30px; text-align: center; }
-        .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-        .tagline { font-size: 16px; opacity: 0.9; margin-bottom: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: hsl(210 40% 8%); margin: 0; padding: 0; background: hsl(0 0% 100%); }
+        .container { max-width: 650px; margin: 20px auto; background-color: hsl(0 0% 100%); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 40px -10px hsl(217 91% 20% / 0.3); }
+        .header { background: linear-gradient(135deg, hsl(217 91% 20%) 0%, hsl(270 50% 30%) 50%, hsl(15 86% 55%) 100%); color: hsl(0 0% 98%); padding: 40px 30px; text-align: center; position: relative; }
+        .logo { font-size: 32px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .tagline { font-size: 18px; opacity: 0.9; margin-bottom: 20px; font-weight: 300; }
         .content { padding: 40px 30px; }
-        .section { margin-bottom: 30px; padding: 20px; background-color: #f8fafc; border-radius: 8px; border-left: 4px solid #3b82f6; }
-        .section-title { font-size: 18px; font-weight: bold; color: #1e40af; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .info-item { display: flex; align-items: center; gap: 8px; }
-        .info-label { font-weight: 600; color: #4b5563; min-width: 80px; }
-        .info-value { color: #1f2937; }
-        .next-steps { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 1px solid #3b82f6; border-radius: 8px; padding: 20px; margin-top: 30px; }
-        .next-steps h3 { color: #1e40af; margin-bottom: 15px; font-size: 16px; }
-        .next-steps ul { margin: 0; padding-left: 20px; }
-        .next-steps li { margin-bottom: 8px; color: #1f2937; }
-        .footer { background-color: #1f2937; color: white; padding: 30px; text-align: center; }
+        .section { margin-bottom: 35px; padding: 25px; background-color: hsl(210 40% 98%); border-radius: 8px; border-left: 4px solid hsl(217 91% 20%); box-shadow: 0 4px 20px hsl(217 91% 20% / 0.1); }
+        .section-title { font-size: 20px; font-weight: 600; color: hsl(217 91% 20%); margin-bottom: 20px; display: flex; align-items: center; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
+        .info-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid hsl(210 40% 90%); }
+        .info-item:last-child { border-bottom: none; }
+        .info-label { font-weight: 600; color: hsl(215 16% 47%); min-width: 120px; }
+        .info-value { color: hsl(210 40% 8%); text-align: right; font-weight: 500; }
+        .next-steps { background: hsl(210 40% 98%); border: 1px solid hsl(210 40% 90%); border-radius: 8px; padding: 25px; margin-top: 35px; border-left: 4px solid hsl(150 60% 45%); }
+        .next-steps h3 { color: hsl(217 91% 20%); margin-bottom: 20px; font-size: 20px; font-weight: 600; }
+        .next-steps ol { margin: 0; padding-left: 20px; color: hsl(210 40% 8%); }
+        .next-steps li { margin-bottom: 12px; font-weight: 500; line-height: 1.5; }
+        .footer { background-color: hsl(217 91% 20%); color: hsl(0 0% 98%); padding: 30px; text-align: center; }
         .footer-content { max-width: 400px; margin: 0 auto; }
         .contact-info { margin-top: 20px; font-size: 14px; opacity: 0.8; }
         @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } .content { padding: 20px 15px; } .header { padding: 30px 20px; } }
@@ -80,7 +81,7 @@ export const generateEmailHtml = (bookingData: any): string => {
       <div class="container">
         <div class="header">
           <div class="logo">White Peak Ski Trips</div>
-          <div class="tagline">Your Alpine Adventure Awaits</div>
+          <div class="tagline">Premium Ski and Snowboard Adventures</div>
         </div>
         
         <div class="content">
@@ -145,7 +146,7 @@ export const generateEmailHtml = (bookingData: any): string => {
           <div class="section">
             <div class="section-title">Selected Destinations</div>
             <div style="margin-bottom: 10px;">
-              ${generateBadges(bookingData.travel.selectedResorts)}
+              ${generateBadges(bookingData.travel.selectedResorts, 'resort')}
             </div>
             ${bookingData.travel.specificLocations ? `
             <div style="margin-top: 10px;">
@@ -176,7 +177,7 @@ export const generateEmailHtml = (bookingData: any): string => {
             <div style="margin-bottom: 15px;">
               <strong>Selected Activities:</strong>
               <div style="margin-top: 8px;">
-                ${generateBadges(bookingData.preferences.interests)}
+                ${generateBadges(bookingData.preferences.interests, 'interest')}
               </div>
             </div>
             ` : ''}
@@ -215,11 +216,8 @@ export const generateEmailHtml = (bookingData: any): string => {
         <div class="footer">
           <div class="footer-content">
             <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">White Peak Ski Trips</div>
-            <div style="font-size: 14px; opacity: 0.8; margin-bottom: 20px;">Creating unforgettable alpine adventures since 2010</div>
             <div class="contact-info">
-              <div>📧 info@whitepeakskitrips.com</div>
-              <div>📞 +1 (555) 123-4567</div>
-              <div>🌐 www.whitepeakskitrips.com</div>
+              <div>📧 info@whitepeaktravel.com</div>
             </div>
           </div>
         </div>
@@ -229,61 +227,61 @@ export const generateEmailHtml = (bookingData: any): string => {
   `;
 };
 
-// Helper function to format email for different email services
-export const formatEmailForService = (emailData: EmailData, service: 'sendgrid' | 'ses' | 'resend') => {
-  const emailHtml = generateEmailHtml(emailData.bookingData);
+// API Routes
+app.post('/api/send-email', async (req, res) => {
+  try {
+    const { to, bookingData } = req.body;
 
-  switch (service) {
-    case 'sendgrid':
-      return {
-        personalizations: [
-          {
-            to: [{ email: emailData.to }],
-          },
-        ],
-        from: { email: 'noreply@whitepeakskitrips.com', name: 'White Peak Ski Trips' },
-        subject: 'White Peak Ski Trips - Booking Confirmation',
-        content: [
-          {
-            type: 'text/html',
-            value: emailHtml,
-          },
-        ],
-      };
+    if (!to || !bookingData) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
-    case 'ses':
-      return {
-        Source: 'White Peak Ski Trips <noreply@whitepeakskitrips.com>',
-        Destination: {
-          ToAddresses: [emailData.to],
-        },
-        Message: {
-          Subject: {
-            Data: 'White Peak Ski Trips - Booking Confirmation',
-            Charset: 'UTF-8',
-          },
-          Body: {
-            Html: {
-              Data: emailHtml,
-              Charset: 'UTF-8',
-            },
-          },
-        },
-      };
+    // Generate the HTML email content
+    const emailHtml = generateEmailHtml(bookingData);
 
-    case 'resend':
-      return {
-        from: 'White Peak Ski Trips <noreply@whitepeakskitrips.com>',
-        to: [emailData.to],
+    if (resend) {
+      // Send the email using Resend
+      const { data, error } = await resend.emails.send({
+        from: 'White Peak Ski Trips <noreply@whitepeaktravel.com>',
+        to: [to],
         subject: 'White Peak Ski Trips - Booking Confirmation',
         html: emailHtml,
-      };
+      });
 
-    default:
-      return {
-        to: emailData.to,
-        subject: 'White Peak Ski Trips - Booking Confirmation',
-        html: emailHtml,
-      };
+      if (error) {
+        console.error('Resend error:', error);
+        return res.status(500).json({ error: 'Failed to send email' });
+      }
+
+      console.log('✅ Email sent successfully:', data);
+      res.json({ success: true, data });
+    } else {
+      // Log the email content for testing
+      console.log('📧 EMAIL WOULD BE SENT:');
+      console.log('To:', to);
+      console.log('Subject: White Peak Ski Trips - Booking Confirmation');
+      console.log('HTML Content Length:', emailHtml.length, 'characters');
+      console.log('📧 END EMAIL LOG');
+      
+      res.json({ success: true, message: 'Email logged (Resend not configured)' });
+    }
+
+  } catch (error) {
+    console.error('API error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-};
+});
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'dist')));
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
+}
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📧 Email API available at http://localhost:${PORT}/api/send-email`);
+});
