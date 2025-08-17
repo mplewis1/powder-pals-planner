@@ -15,9 +15,9 @@ import {
 
 const Footer = () => {
   const quickDestinations = {
-    usa: ['Jackson Hole, WY', 'Park City, UT', 'Aspen, CO', 'Big Sky, MT'],
-    canada: ['Whistler, BC', 'Banff, AB', 'Mont-Tremblant, QC', 'Fernie, BC'],
-    europe: ['Chamonix, France', 'St. Anton, Austria', 'Verbier, Switzerland', 'Zermatt, Switzerland']
+    usa: ['Colorado', 'Utah', 'California', 'Wyoming'],
+    canada: ['Whistler', 'Banff', 'Lake Louise', 'Mont Tremblant'],
+    europe: ['France', 'Austria', 'Switzerland', 'Italy']
   };
 
   return (
@@ -31,35 +31,31 @@ const Footer = () => {
             <div className="flex items-center space-x-2">
               <Mountain className="h-8 w-8 text-accent" />
               <div>
-                <h3 className="text-xl font-bold">Best Buddies</h3>
-                <p className="text-sm opacity-80">Ski Trips</p>
+                            <h3 className="text-xl font-bold">White Peak</h3>
+            <p className="text-sm opacity-80">Ski Trips</p>
               </div>
             </div>
             
             <p className="text-primary-foreground/80 leading-relaxed">
-              Creating unforgettable ski adventures for groups since 2008. From powder days 
+              Creating unforgettable ski adventures for groups. From powder days 
               to après-ski memories, we turn mountain dreams into reality.
             </p>
 
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-accent" />
-                <span>1-800-SKI-TRIP</span>
-              </div>
-              <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-accent" />
-                <span>hello@bestbuddiesskitrips.com</span>
+                <span>info@whitepeakskitrips.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-4 w-4 text-accent" />
-                <span>Denver, CO & Whistler, BC</span>
+                <span>New York, NY</span>
               </div>
             </div>
           </div>
 
           {/* Popular Destinations */}
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold">Popular Destinations</h4>
+            <h4 className="text-lg font-semibold">Trending Destinations</h4>
             
             <div className="space-y-4">
               <div>
@@ -120,7 +116,7 @@ const Footer = () => {
 
           {/* Newsletter & Social */}
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold">Ski Trip Deals & Snow Reports</h4>
+            <h4 className="text-lg font-semibold">Stay in the Loop</h4>
             <p className="text-primary-foreground/80 text-sm">
               Get exclusive deals, fresh powder alerts, and insider mountain tips delivered to your inbox.
             </p>
@@ -131,7 +127,7 @@ const Footer = () => {
                 className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
               />
               <Button variant="secondary" className="w-full">
-                Subscribe to Powder Alerts
+                Subscribe to Blog
               </Button>
             </div>
 
@@ -156,16 +152,8 @@ const Footer = () => {
         <div className="border-t border-primary-foreground/20 pt-8 mb-8">
           <div className="flex flex-col md:flex-row justify-center items-center gap-8">
             <div className="flex items-center space-x-2 text-sm">
-              <Award className="h-5 w-5 text-accent" />
-              <span>Better Business Bureau A+ Rating</span>
-            </div>
-            <div className="flex items-center space-x-2 text-sm">
               <Shield className="h-5 w-5 text-accent" />
-              <span>Travel Industry Certified</span>
-            </div>
-            <div className="flex items-center space-x-2 text-sm">
-              <Mountain className="h-5 w-5 text-accent" />
-              <span>Ski Industry Partner</span>
+              <span>Certified Fora Travel Advisor</span>
             </div>
           </div>
         </div>
@@ -174,7 +162,7 @@ const Footer = () => {
         <div className="border-t border-primary-foreground/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-primary-foreground/60 text-sm">
-              © 2024 Best Buddies Ski Trips. All rights reserved.
+              © 2025 White Peak Ski Trips. All rights reserved.
             </p>
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-primary-foreground/60 hover:text-accent text-sm transition-colors duration-200">
@@ -182,9 +170,6 @@ const Footer = () => {
               </a>
               <a href="#" className="text-primary-foreground/60 hover:text-accent text-sm transition-colors duration-200">
                 Terms of Service
-              </a>
-              <a href="#" className="text-primary-foreground/60 hover:text-accent text-sm transition-colors duration-200">
-                Cookie Policy
               </a>
             </div>
           </div>

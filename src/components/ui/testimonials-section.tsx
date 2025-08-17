@@ -9,7 +9,7 @@ const TestimonialsSection = () => {
       name: 'Mike & The Powder Squad',
       location: 'Jackson Hole, Wyoming',
       rating: 5,
-      text: 'Best Buddies planned our bachelor party ski trip to Jackson Hole and it was absolutely epic! They handled everything from lift tickets to the perfect mountain lodge. The powder was deep and the memories even deeper!',
+      text: 'White Peak planned our bachelor party ski trip to Jackson Hole and it was absolutely epic! They handled everything from lift tickets to the perfect mountain lodge. The powder was deep and the memories even deeper!',
       image: skiBuddiesImage,
       groupSize: '8 friends'
     },
@@ -17,7 +17,7 @@ const TestimonialsSection = () => {
       name: 'Sarah\'s Corporate Retreat',
       location: 'Whistler, BC',
       rating: 5,
-      text: 'Our company retreat to Whistler was flawless thanks to Best Buddies. They coordinated lessons for our mixed-ability team and the après-ski activities were perfect for team building. Already booking next year!',
+      text: 'Our company retreat to Whistler was flawless thanks to White Peak. They coordinated lessons for our mixed-ability team and the après-ski activities were perfect for team building. Already booking next year!',
       image: skiBuddiesImage,
       groupSize: '15 colleagues'
     },
@@ -25,7 +25,7 @@ const TestimonialsSection = () => {
       name: 'The College Crew',
       location: 'Chamonix, France',
       rating: 5,
-      text: 'We wanted to ski the legendary Vallée Blanche and Best Buddies made it happen! The local guides they arranged were incredible and the off-piste skiing was life-changing. Worth every penny!',
+      text: 'We wanted to ski the legendary Vallée Blanche and White Peak made it happen! The local guides they arranged were incredible and the off-piste skiing was life-changing. Worth every penny!',
       image: skiBuddiesImage,
       groupSize: '6 friends'
     },
@@ -33,7 +33,7 @@ const TestimonialsSection = () => {
       name: 'Johnson Family Adventure',
       location: 'Park City, Utah',
       rating: 5,
-      text: 'Mixed skill levels in our family group but Best Buddies found the perfect resort. Kids loved the beginner slopes while dad tackled the double blacks. Everyone had their perfect ski day!',
+      text: 'Mixed skill levels in our family group but White Peak found the perfect resort. Kids loved the beginner slopes while dad tackled the double blacks. Everyone had their perfect ski day!',
       image: skiBuddiesImage,
       groupSize: 'Family of 6'
     }

@@ -32,7 +32,7 @@ const ServicesSection = () => {
     {
       icon: Users,
       title: 'Group Coordination',
-      description: 'Perfect for bachelor parties, corporate retreats, and buddy trips.',
+      description: 'Perfect for family trips, large groups, and corporate retreats.',
       features: ['Group discounts', 'Event coordination', 'Team building']
     },
     {
@@ -58,7 +58,7 @@ const ServicesSection = () => {
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             From planning to powder days, we handle every detail so you can focus on 
-            making memories with your best buddies on the mountain.
+            making memories on the mountain.
           </p>
         </div>
 

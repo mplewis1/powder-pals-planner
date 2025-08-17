@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star, Award, Users } from 'lucide-react';
 import heroImage from '@/assets/hero-ski-mountain.jpg';
+import BookingForm from './booking-form';
 
 const HeroSection = () => {
+  const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
   const trustIndicators = [
-    { icon: Star, text: '500+ Successful Trips' },
-    { icon: Award, text: 'Expert Snow Travel Planners' },
+    { icon: Star, text: 'Global Destinations' },
+    { icon: Award, text: 'Expert Winter Travel Planners' },
     { icon: Users, text: '100% Satisfaction Guarantee' },
   ];
 
@@ -30,11 +32,11 @@ const HeroSection = () => {
           {/* Main Headlines */}
           <div className="space-y-4">
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              Epic Ski Adventures with Your{' '}
-              <span className="text-accent glow-animation">Best Buddies</span>
+            <span className="text-accent glow-animation">Premium</span>
+            {' '}Ski and Snowboard Advenutes
             </h1>
             <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Custom-designed ski and snowboard trips to the world's most incredible mountains
+              Custom-designed winter trips to the world's top-rated mountains
             </p>
           </div>
 
@@ -43,16 +45,11 @@ const HeroSection = () => {
             <Button 
               size="lg" 
               className="bg-accent text-accent-foreground hover:bg-accent/90 text-lg px-8 py-6 alpine-shadow glow-animation"
+              onClick={() => setIsBookingFormOpen(true)}
             >
               Start Planning Your Trip
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6"
-            >
-              View Destinations
-            </Button>
+
           </div>
 
           {/* Trust Indicators */}
@@ -67,20 +64,6 @@ const HeroSection = () => {
 
           {/* Stats */}
           <div className="pt-8 border-t border-white/20">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-accent">500+</div>
-                <div className="text-white/80">Happy Groups</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-accent">50+</div>
-                <div className="text-white/80">Premium Destinations</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-accent">15</div>
-                <div className="text-white/80">Years Experience</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -99,6 +82,12 @@ const HeroSection = () => {
           />
         ))}
       </div>
+
+      {/* Booking Form Modal */}
+      <BookingForm 
+        isOpen={isBookingFormOpen} 
+        onClose={() => setIsBookingFormOpen(false)} 
+      />
     </section>
   );
 };
