@@ -63,8 +63,7 @@ const Footer = () => {
                 <ul className="space-y-1">
                   {quickDestinations.usa.map((dest, index) => (
                     <li key={index}>
-                      <a 
-                        href="#" 
+                      <a  
                         className="text-primary-foreground/80 hover:text-accent transition-colors duration-200 text-sm"
                       >
                         {dest}
@@ -80,7 +79,6 @@ const Footer = () => {
                   {quickDestinations.canada.slice(0, 2).map((dest, index) => (
                     <li key={index}>
                       <a 
-                        href="#" 
                         className="text-primary-foreground/80 hover:text-accent transition-colors duration-200 text-sm"
                       >
                         {dest}
@@ -96,18 +94,16 @@ const Footer = () => {
           <div className="space-y-6">
             <h4 className="text-lg font-semibold">Services</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Custom Itineraries</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Group Coordination</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Equipment Rentals</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Lift Tickets</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Après-Ski Activities</a></li>
+              <li><a className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Custom Itineraries</a></li>
+              <li><a className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Group Coordination</a></li>
+              <li><a className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Equipment Rentals</a></li>
+              <li><a className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Lift Tickets</a></li>
+              <li><a className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Après-Ski Activities</a></li>
             </ul>
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Company</h4>
               <ul className="space-y-2">
-                <li><a href="#about" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">About Us</a></li>
-                <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">FAQ</a></li>
                 <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Terms & Conditions</a></li>
                 <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors duration-200">Privacy Policy</a></li>
               </ul>
@@ -116,20 +112,6 @@ const Footer = () => {
 
           {/* Newsletter & Social */}
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold">Stay in the Loop</h4>
-            <p className="text-primary-foreground/80 text-sm">
-              Get exclusive deals, fresh powder alerts, and insider mountain tips delivered to your inbox.
-            </p>
-            
-            <div className="space-y-3">
-              <Input 
-                placeholder="Enter your email"
-                className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
-              />
-              <Button variant="secondary" className="w-full">
-                Subscribe to Blog
-              </Button>
-            </div>
 
             <div>
               <h5 className="font-medium mb-3">Follow Our Adventures</h5>

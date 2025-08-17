@@ -24,9 +24,11 @@ import germanyImage from '@/assets/germany.jpg';
 import andorraImage from '@/assets/andorra.jpg';
 import bulgariaImage from '@/assets/bulgaria.jpg';
 import spainImage from '@/assets/spain.jpg';
+import BookingForm from './booking-form';
 
 const DestinationsGallery = () => {
   const [activeRegion, setActiveRegion] = useState('usa');
+  const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
 
   const regions = [
     { id: 'usa', name: 'United States', count: 25 },
@@ -310,7 +312,12 @@ const DestinationsGallery = () => {
                   </div>
                 </div>
 
-                <Button variant="outline" size="sm" className="w-full group-hover:bg-accent group-hover:text-accent-foreground transition-colors duration-200 mt-auto">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full group-hover:bg-accent group-hover:text-accent-foreground transition-colors duration-200 mt-auto"
+                  onClick={() => setIsBookingFormOpen(true)}
+                >
                   Get Quote
                 </Button>
               </CardContent>
@@ -328,12 +335,23 @@ const DestinationsGallery = () => {
               We specialize in custom ski adventures worldwide. Tell us where you want to go, 
               and we'll create the perfect itinerary for your group.
             </p>
-            <Button variant="default" size="lg" className="alpine-shadow">
+            <Button 
+              variant="default" 
+              size="lg" 
+              className="alpine-shadow"
+              onClick={() => setIsBookingFormOpen(true)}
+            >
               Request Custom Destination
             </Button>
           </div>
         </div>
       </div>
+
+      {/* Booking Form Modal */}
+      <BookingForm 
+        isOpen={isBookingFormOpen} 
+        onClose={() => setIsBookingFormOpen(false)} 
+      />
     </section>
   );
 };

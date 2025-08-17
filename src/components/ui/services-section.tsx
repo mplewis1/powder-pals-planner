@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
   MapPin, 
@@ -8,8 +8,10 @@ import {
   Compass,
   Snowflake 
 } from 'lucide-react';
+import BookingForm from './booking-form';
 
 const ServicesSection = () => {
+  const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
   const services = [
     {
       icon: Calendar,
@@ -103,16 +105,22 @@ const ServicesSection = () => {
               From beginners to black diamond experts, we've got you covered.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-accent px-8 py-3 rounded-lg font-semibold hover:bg-white/90 transition-colors duration-200">
+              <button className="bg-white text-accent px-8 py-3 rounded-lg font-semibold hover:bg-white/90 transition-colors duration-200" onClick={() => setIsBookingFormOpen(true)}>
                 Get Custom Quote
               </button>
               <button className="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-200">
-                Browse Destinations
+                <a href='#destinations'>Browse Destinations</a>
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Booking Form Modal */}
+      <BookingForm 
+        isOpen={isBookingFormOpen} 
+        onClose={() => setIsBookingFormOpen(false)} 
+      />
     </section>
   );
 };

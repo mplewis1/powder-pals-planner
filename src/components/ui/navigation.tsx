@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Mountain, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import BookingForm from './booking-form';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
 
   const navItems = [
     { name: 'Home', href: '#' },
     { name: 'Destinations', href: '#destinations' },
-    { name: 'Blog', href: '#blog' },
   ];
 
   return (
@@ -41,7 +42,11 @@ const Navigation = () => {
 
           {/* CTA Button */}
           <div className="hidden md:flex">
-            <Button variant="default" className="alpine-shadow glow-animation">
+            <Button 
+              variant="default" 
+              className="alpine-shadow glow-animation"
+              onClick={() => setIsBookingFormOpen(true)}
+            >
               Plan Your Trip
             </Button>
           </div>
@@ -75,12 +80,25 @@ const Navigation = () => {
                 {item.name}
               </a>
             ))}
-            <Button variant="default" className="w-full mt-4">
+            <Button 
+              variant="default" 
+              className="w-full mt-4"
+              onClick={() => {
+                setIsBookingFormOpen(true);
+                setIsMenuOpen(false);
+              }}
+            >
               Plan Your Trip
             </Button>
           </div>
         </div>
       )}
+
+      {/* Booking Form Modal */}
+      <BookingForm 
+        isOpen={isBookingFormOpen} 
+        onClose={() => setIsBookingFormOpen(false)} 
+      />
     </nav>
   );
 };
