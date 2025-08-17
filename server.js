@@ -531,33 +531,46 @@ app.post('/api/send-email', async (req, res) => {
       const dmcEmailHtml = generateDmcInquiryEmail(bookingData);
       
       // Send confirmation email to client
-      const { data: clientData, error: clientError } = await resend.emails.send({
-        from: 'White Peak Travel <onboarding@resend.dev>',
-        to: [to],
-        subject: 'White Peak Travel - Inquiry Confirmation',
-        html: emailHtml,
-      });
+      try {
+        const { data: clientData, error: clientError } = await resend.emails.send({
+          from: 'White Peak Travel <noreply@whitepeaktravel.com>',
+          to: [to],
+          subject: 'White Peak Travel - Inquiry Confirmation',
+          html: emailHtml,
+        });
 
-      if (clientError) {
-        console.error('Resend error (client email):', clientError);
-        return res.status(500).json({ error: 'Failed to send client email' });
+        if (clientError) {
+          console.error('Resend error (client email):', clientError);
+          throw new Error(`Client email failed: ${clientError.message}`);
+        }
+
+        console.log('✅ Client email sent successfully:', clientData);
+      } catch (clientError) {
+        console.error('❌ Client email failed:', clientError);
+        // Continue with DMC email even if client email fails
       }
 
-      // Add a small delay to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Add a longer delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Send DMC inquiry email to Matthew
-      const { data: dmcData, error: dmcError } = await resend.emails.send({
-        from: 'White Peak Travel <onboarding@resend.dev>',
-        to: ['matthew.lewis@fora.travel'],
-        subject: `Ski Trip Inquiry - ${bookingData.client.name} - ${bookingData.group.numberOfPeople} people - ${bookingData.travel.startDate} to ${bookingData.travel.endDate}`,
-        html: dmcEmailHtml,
-      });
+      try {
+        const { data: dmcData, error: dmcError } = await resend.emails.send({
+          from: 'White Peak Travel <noreply@whitepeaktravel.com>',
+          to: ['matthew.lewis@fora.travel'],
+          subject: `Ski Trip Inquiry - ${bookingData.client.name} - ${bookingData.group.numberOfPeople} people - ${bookingData.travel.startDate} to ${bookingData.travel.endDate}`,
+          html: dmcEmailHtml,
+        });
 
-      if (dmcError) {
-        console.error('Resend error (DMC email):', dmcError);
-        // Don't fail the request if DMC email fails, just log it
-        console.log('⚠️ DMC email failed but client email sent successfully');
+        if (dmcError) {
+          console.error('Resend error (DMC email):', dmcError);
+          throw new Error(`DMC email failed: ${dmcError.message}`);
+        }
+
+        console.log('✅ DMC inquiry email sent successfully:', dmcData);
+      } catch (dmcError) {
+        console.error('❌ DMC email failed:', dmcError);
+        // Log but don't fail the entire request
       }
 
       console.log('✅ Client email sent successfully:', clientData);
