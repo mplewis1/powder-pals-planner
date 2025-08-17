@@ -532,7 +532,7 @@ app.post('/api/send-email', async (req, res) => {
       
       // Send confirmation email to client
       const { data: clientData, error: clientError } = await resend.emails.send({
-        from: 'White Peak Travel <noreply@whitepeaktravel.com>',
+        from: 'White Peak Travel <onboarding@resend.dev>',
         to: [to],
         subject: 'White Peak Travel - Inquiry Confirmation',
         html: emailHtml,
@@ -543,9 +543,12 @@ app.post('/api/send-email', async (req, res) => {
         return res.status(500).json({ error: 'Failed to send client email' });
       }
 
+      // Add a small delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       // Send DMC inquiry email to Matthew
       const { data: dmcData, error: dmcError } = await resend.emails.send({
-        from: 'White Peak Travel <noreply@whitepeaktravel.com>',
+        from: 'White Peak Travel <onboarding@resend.dev>',
         to: ['matthew.lewis@fora.travel'],
         subject: `Ski Trip Inquiry - ${bookingData.client.name} - ${bookingData.group.numberOfPeople} people - ${bookingData.travel.startDate} to ${bookingData.travel.endDate}`,
         html: dmcEmailHtml,
