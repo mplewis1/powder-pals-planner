@@ -12,9 +12,9 @@ export async function POST(request: Request) {
 
     // Send the email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'White Peak Ski Trips <noreply@whitepeakskitrips.com>',
+      from: 'White Peak Travel <noreply@whitepeakskitrips.com>',
       to: [to],
-      subject: 'White Peak Ski Trips - Booking Confirmation',
+      subject: 'White Peak Travel - Booking Confirmation',
       html: emailHtml,
     });
 

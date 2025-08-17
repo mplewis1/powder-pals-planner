@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
-  Mountain, 
   Phone, 
   Mail, 
   MapPin, 
@@ -12,6 +11,7 @@ import {
   Award,
   Shield
 } from 'lucide-react';
+import logo from '@/assets/logo.png';
 
 const Footer = () => {
   const quickDestinations = {
@@ -28,11 +28,11 @@ const Footer = () => {
           
           {/* Company Info */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-2">
-              <Mountain className="h-8 w-8 text-accent" />
+            <div className="flex items-center space-x-3">
+              <img src={logo} alt="White Peak Logo" className="h-10 w-auto" />
               <div>
-                            <h3 className="text-xl font-bold">White Peak</h3>
-            <p className="text-sm opacity-80">Ski Trips</p>
+                <h3 className="text-xl font-bold">White Peak Travel</h3>
+                <p className="text-sm opacity-80">Premium Ski Adventures</p>
               </div>
             </div>
             
@@ -44,7 +44,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-accent" />
-                <span>info@whitepeakskitrips.com</span>
+                <span>info@whitepeaktravel.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-4 w-4 text-accent" />
@@ -144,7 +144,7 @@ const Footer = () => {
         <div className="border-t border-primary-foreground/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-primary-foreground/60 text-sm">
-              © 2025 White Peak Ski Trips. All rights reserved.
+              © 2025 White Peak Travel. All rights reserved.
             </p>
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-primary-foreground/60 hover:text-accent text-sm transition-colors duration-200">

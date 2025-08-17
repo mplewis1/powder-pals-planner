@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Mountain, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import BookingForm from './booking-form';
+import logo from '@/assets/logo.png';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,11 +20,11 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Mountain className="h-8 w-8 text-primary" />
+          <div className="flex items-center space-x-3">
+            <img src={logo} alt="White Peak Logo" className="h-10 w-auto" />
             <div>
-              <h1 className="text-xl font-bold text-primary">White Peak</h1>
-              <p className="text-xs text-muted-foreground -mt-1">Ski Trips</p>
+              <h1 className="text-xl font-bold text-primary">White Peak Travel</h1>
+              <p className="text-xs text-muted-foreground -mt-1">Premium Ski Adventures</p>
             </div>
           </div>
 

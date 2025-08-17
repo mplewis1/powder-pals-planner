@@ -1,4 +1,4 @@
--- White Peak Ski Trips Database Schema
+-- White Peak Travel Database Schema
 
 -- Bookings table - Main booking records
 CREATE TABLE bookings (

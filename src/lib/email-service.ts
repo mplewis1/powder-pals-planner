@@ -79,7 +79,7 @@ export const generateEmailHtml = (bookingData: any): string => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">White Peak Travels</div>
+          <div class="logo">White Peak Travel</div>
           <div class="tagline">Your Alpine Adventure Awaits</div>
         </div>
         

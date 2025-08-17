@@ -80,7 +80,7 @@ const generateEmailHtml = (bookingData) => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">White Peak Travel</div>
+          <div class="logo" style="font-size: 32px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px;">White Peak Travel</div>
           <div class="tagline">Premium Ski and Snowboard Adventures</div>
         </div>
         
