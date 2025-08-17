@@ -52,6 +52,15 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Winter theme colors
+				alpine: {
+					blue: 'hsl(var(--alpine-blue))',
+					'blue-light': 'hsl(var(--alpine-blue-light))',
+					green: 'hsl(var(--mountain-green))',
+					snow: 'hsl(var(--snow-white))',
+					ice: 'hsl(var(--ice-blue))',
+					twilight: 'hsl(var(--twilight-purple))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -88,7 +97,15 @@ export default {
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'snowfall': 'snowfall 8s linear infinite',
+				'mountain-glow': 'mountain-glow 3s ease-in-out infinite',
+				'ski-slide': 'ski-slide 4s ease-in-out infinite'
+			},
+			backgroundImage: {
+				'hero-gradient': 'var(--gradient-hero)',
+				'mountain-gradient': 'var(--gradient-mountain)',
+				'accent-gradient': 'var(--gradient-accent)'
 			}
 		}
 	},
