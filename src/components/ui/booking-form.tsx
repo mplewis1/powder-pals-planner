@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { X, Calendar, Users, MapPin, DollarSign, Heart, CheckCircle, Mail, Phone } from 'lucide-react';
+import { Calendar, Users, MapPin, DollarSign, Heart, CheckCircle, Mail, Phone } from 'lucide-react';
 import { sendBookingConfirmationEmail } from '@/lib/email-service';
 
 interface BookingFormProps {
@@ -119,49 +119,45 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
   };
 
   const handleSubmit = async () => {
-    
-    // Create structured JSON for database
+    // Validate required fields
+    if (!formData.clientName || !formData.email || !formData.numberOfPeople || !formData.numberOfSkiDays || 
+        !formData.startDate || !formData.endDate || formData.selectedResorts.length === 0 || !formData.budgetRange) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // Create structured booking data
     const bookingData = {
       id: Date.now().toString(),
       createdAt: new Date().toISOString(),
       status: 'pending',
-      
-      // Client Information
       client: {
         name: formData.clientName,
         email: formData.email,
-        phone: formData.phone
+        phone: formData.phone || ''
       },
-      
-      // Group Details
       group: {
         numberOfPeople: parseInt(formData.numberOfPeople),
         numberOfRooms: formData.numberOfRooms ? parseInt(formData.numberOfRooms) : null,
         numberOfSkiDays: parseInt(formData.numberOfSkiDays),
         hasMinors: formData.hasMinors,
-        minorAges: formData.hasMinors ? formData.minorAges.split(',').map(age => age.trim()) : []
+        minorAges: formData.minorAges
       },
-      
-      // Travel Details
       travel: {
         startDate: formData.startDate,
         endDate: formData.endDate,
         selectedResorts: formData.selectedResorts,
-        specificLocations: formData.specificLocations
+        specificLocations: formData.specificLocations || ''
       },
-      
-      // Budget Information
       budget: {
         range: formData.budgetRange,
-        details: formData.budgetDetails
+        details: formData.budgetDetails || ''
       },
-      
-      // Preferences
       preferences: {
         interests: formData.interests,
-        pastExperiences: formData.pastExperiences,
-        preferredHotels: formData.preferredHotels,
-        specialRequirements: formData.specialRequirements
+        pastExperiences: formData.pastExperiences || '',
+        preferredHotels: formData.preferredHotels || '',
+        specialRequirements: formData.specialRequirements || ''
       }
     };
     
@@ -172,12 +168,14 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
     try {
       const emailResult = await sendBookingConfirmationEmail(bookingData);
       console.log('✅ Confirmation email sent successfully:', emailResult);
+      setSubmittedData(bookingData);
+      setShowConfirmation(true);
     } catch (error) {
       console.error('❌ Failed to send confirmation email:', error);
+      // Still show confirmation even if email fails
+      setSubmittedData(bookingData);
+      setShowConfirmation(true);
     }
-    
-    setSubmittedData(bookingData);
-    setShowConfirmation(true);
   };
 
   return (

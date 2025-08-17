@@ -13,7 +13,7 @@ export const sendBookingConfirmationEmail = async (bookingData: any) => {
     // Use deployed backend URL in production, localhost in development
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
     const apiUrl = isProduction
-      ? 'https://white-peak-email-api.onrender.com/api/send-email'
+      ? 'https://white-peak-email-api-production.up.railway.app/api/send-email'
       : 'http://localhost:3001/api/send-email';
 
     const response = await fetch(apiUrl, {
